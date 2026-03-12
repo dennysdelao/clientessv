@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>Consulta de Cliente</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:50px;
+}
+
+input{
+padding:10px;
+font-size:18px;
+}
+
+button{
+padding:10px 20px;
+font-size:18px;
+background:#22c55e;
+border:none;
+cursor:pointer;
+}
+
+#resultado{
+margin-top:30px;
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Consulta de Cliente</h1>
+
+<input id="codigoCliente" placeholder="Ingrese código de cliente">
+
+<button onclick="buscarCliente()">Buscar</button>
+
+<div id="resultado"></div>
+
+<script>
+
+async function buscarCliente(){
+
+let codigo = document.getElementById("codigoCliente").value
+
+let response = await fetch("clientes.json")
+
+let clientes = await response.json()
+
+let cliente = clientes.find(c => c.codigo === codigo)
+
+if(cliente){
+
+document.getElementById("resultado").innerHTML = `
+<h2>${cliente.nombre}</h2>
+<p><b>Teléfono:</b> ${cliente.telefono}</p>
+<p><b>Dirección:</b> ${cliente.direccion}</p>
+<p><b>Correo:</b> ${cliente.correo}</p>
+`
+
+}else{
+
+document.getElementById("resultado").innerHTML = "Cliente no encontrado"
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
