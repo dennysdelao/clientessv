@@ -67,7 +67,6 @@ let codigo = document.getElementById("codigoCliente").value
 
 let response = await fetch("clientes.json")
 
-let clientes = await response.json()
 
 let cliente = clientes.find(c => String(c.Codigo).trim() == codigo.trim())
 
