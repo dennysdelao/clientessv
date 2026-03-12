@@ -2,8 +2,9 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
-<title>Consulta de Clientes</title>
+<title>Consulta de Cliente</title>
 
 <style>
 
@@ -15,11 +16,16 @@ text-align:center;
 padding:40px;
 }
 
+h1{
+margin-bottom:30px;
+}
+
 input{
 padding:12px;
 font-size:18px;
 border-radius:6px;
 border:none;
+width:220px;
 }
 
 button{
@@ -29,6 +35,7 @@ background:#22c55e;
 border:none;
 cursor:pointer;
 border-radius:6px;
+margin-left:10px;
 }
 
 button:hover{
@@ -36,11 +43,11 @@ background:#16a34a;
 }
 
 #resultado{
-margin-top:30px;
+margin-top:40px;
 background:#1e293b;
 padding:25px;
 border-radius:10px;
-width:400px;
+width:420px;
 margin-left:auto;
 margin-right:auto;
 }
@@ -63,12 +70,13 @@ margin-right:auto;
 
 async function buscarCliente(){
 
-let codigo = document.getElementById("codigoCliente").value
+let codigo = document.getElementById("codigoCliente").value.trim()
 
 let response = await fetch("clientes.json")
 
+let clientes = await response.json()
 
-let cliente = clientes.find(c => String(c.Codigo).trim() == codigo.trim())
+let cliente = clientes.find(c => String(c.Codigo).trim() == codigo)
 
 if(cliente){
 
@@ -94,4 +102,5 @@ document.getElementById("resultado").innerHTML = "Cliente no encontrado"
 </script>
 
 </body>
+
 </html>
