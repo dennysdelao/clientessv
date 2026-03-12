@@ -2,7 +2,6 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
 <title>Consulta de Cliente</title>
 
@@ -70,30 +69,30 @@ margin-right:auto;
 
 async function buscarCliente(){
 
-let codigo = document.getElementById("codigoCliente").value.trim()
+let codigo = document.getElementById("codigoCliente").value.trim();
 
-let response = await fetch("clientes.json")
+let response = await fetch("clientes.json");
 
-let clientes = await response.json()
+let clientes = await response.json();
 
-let cliente = clientes.find(c => String(c.Codigo).trim() == codigo)
+let clienteEncontrado = clientes.find(c => String(c.Codigo).trim() === codigo);
 
-if(cliente){
+if(clienteEncontrado){
 
 document.getElementById("resultado").innerHTML = `
-<h2>${cliente.Nombre}</h2>
+<h2>${clienteEncontrado.Nombre}</h2>
 
-<p><b>Ruta:</b> ${cliente["Ruta Rep."]}</p>
-<p><b>Código:</b> ${cliente.Codigo}</p>
-<p><b>Negocio:</b> ${cliente.Negocio}</p>
-<p><b>Canal:</b> ${cliente.Canal}</p>
-<p><b>Nombre Atención:</b> ${cliente["Nombre atencion"]}</p>
-<p><b>Frecuencia Visita:</b> ${cliente["Frecuencia Visita"]}</p>
-`
+<p><b>Ruta:</b> ${clienteEncontrado["Ruta Rep."]}</p>
+<p><b>Código:</b> ${clienteEncontrado.Codigo}</p>
+<p><b>Negocio:</b> ${clienteEncontrado.Negocio}</p>
+<p><b>Canal:</b> ${clienteEncontrado.Canal}</p>
+<p><b>Nombre Atención:</b> ${clienteEncontrado["Nombre atencion"]}</p>
+<p><b>Frecuencia Visita:</b> ${clienteEncontrado["Frecuencia Visita"]}</p>
+`;
 
 }else{
 
-document.getElementById("resultado").innerHTML = "Cliente no encontrado"
+document.getElementById("resultado").innerHTML = "Cliente no encontrado";
 
 }
 
