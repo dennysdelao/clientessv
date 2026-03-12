@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Consulta de Cliente</title>
+<title>Consulta de Clientes</title>
 
 <style>
 
@@ -12,27 +12,37 @@ font-family: Arial;
 background:#0f172a;
 color:white;
 text-align:center;
-padding:50px;
+padding:40px;
 }
 
 input{
-padding:10px;
+padding:12px;
 font-size:18px;
+border-radius:6px;
+border:none;
 }
 
 button{
-padding:10px 20px;
+padding:12px 20px;
 font-size:18px;
 background:#22c55e;
 border:none;
 cursor:pointer;
+border-radius:6px;
+}
+
+button:hover{
+background:#16a34a;
 }
 
 #resultado{
 margin-top:30px;
 background:#1e293b;
-padding:20px;
+padding:25px;
 border-radius:10px;
+width:400px;
+margin-left:auto;
+margin-right:auto;
 }
 
 </style>
@@ -57,17 +67,21 @@ let codigo = document.getElementById("codigoCliente").value
 
 let response = await fetch("clientes.json")
 
-let cliente = clientes.find(c => String(c.Codigo).trim() == codigo.trim())
+let clientes = await response.json()
 
-let cliente = clientes.find(c => c.codigo === codigo)
+let cliente = clientes.find(c => String(c.Codigo).trim() == codigo.trim())
 
 if(cliente){
 
 document.getElementById("resultado").innerHTML = `
-<h2>${cliente.nombre}</h2>
-<p><b>Teléfono:</b> ${cliente.telefono}</p>
-<p><b>Dirección:</b> ${cliente.direccion}</p>
-<p><b>Correo:</b> ${cliente.correo}</p>
+<h2>${cliente.Nombre}</h2>
+
+<p><b>Ruta:</b> ${cliente["Ruta Rep."]}</p>
+<p><b>Código:</b> ${cliente.Codigo}</p>
+<p><b>Negocio:</b> ${cliente.Negocio}</p>
+<p><b>Canal:</b> ${cliente.Canal}</p>
+<p><b>Nombre Atención:</b> ${cliente["Nombre atencion"]}</p>
+<p><b>Frecuencia Visita:</b> ${cliente["Frecuencia Visita"]}</p>
 `
 
 }else{
