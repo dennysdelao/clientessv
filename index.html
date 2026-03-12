@@ -15,10 +15,6 @@ text-align:center;
 padding:40px;
 }
 
-h1{
-margin-bottom:30px;
-}
-
 input{
 padding:12px;
 font-size:18px;
@@ -37,18 +33,13 @@ border-radius:6px;
 margin-left:10px;
 }
 
-button:hover{
-background:#16a34a;
-}
-
 #resultado{
 margin-top:40px;
 background:#1e293b;
 padding:25px;
 border-radius:10px;
 width:420px;
-margin-left:auto;
-margin-right:auto;
+margin:auto;
 }
 
 </style>
@@ -60,7 +51,6 @@ margin-right:auto;
 <h1>Consulta de Cliente</h1>
 
 <input id="codigoCliente" placeholder="Ingrese código de cliente">
-
 <button onclick="buscarCliente()">Buscar</button>
 
 <div id="resultado"></div>
@@ -69,30 +59,30 @@ margin-right:auto;
 
 async function buscarCliente(){
 
-let codigo = document.getElementById("codigoCliente").value.trim();
+const codigo = document.getElementById("codigoCliente").value.trim()
 
-let response = await fetch("clientes.json");
+const response = await fetch("clientes.json")
 
-let clientes = await response.json();
+const clientes = await response.json()
 
-let clienteEncontrado = clientes.find(c => String(c.Codigo).trim() === codigo);
+const resultado = clientes.find(c => String(c.Codigo).trim() === codigo)
 
-if(clienteEncontrado){
+if(resultado){
 
 document.getElementById("resultado").innerHTML = `
-<h2>${clienteEncontrado.Nombre}</h2>
+<h2>${resultado.Nombre}</h2>
 
-<p><b>Ruta:</b> ${clienteEncontrado["Ruta Rep."]}</p>
-<p><b>Código:</b> ${clienteEncontrado.Codigo}</p>
-<p><b>Negocio:</b> ${clienteEncontrado.Negocio}</p>
-<p><b>Canal:</b> ${clienteEncontrado.Canal}</p>
-<p><b>Nombre Atención:</b> ${clienteEncontrado["Nombre atencion"]}</p>
-<p><b>Frecuencia Visita:</b> ${clienteEncontrado["Frecuencia Visita"]}</p>
-`;
+<p><b>Ruta:</b> ${resultado["Ruta Rep."]}</p>
+<p><b>Código:</b> ${resultado.Codigo}</p>
+<p><b>Negocio:</b> ${resultado.Negocio}</p>
+<p><b>Canal:</b> ${resultado.Canal}</p>
+<p><b>Nombre Atención:</b> ${resultado["Nombre atencion"]}</p>
+<p><b>Frecuencia Visita:</b> ${resultado["Frecuencia Visita"]}</p>
+`
 
 }else{
 
-document.getElementById("resultado").innerHTML = "Cliente no encontrado";
+document.getElementById("resultado").innerHTML = "Cliente no encontrado"
 
 }
 
