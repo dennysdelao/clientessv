@@ -15,12 +15,16 @@ text-align:center;
 padding:40px;
 }
 
+h1{
+margin-bottom:30px;
+}
+
 input{
 padding:12px;
 font-size:18px;
 border-radius:6px;
 border:none;
-width:220px;
+width:260px;
 }
 
 button{
@@ -33,13 +37,18 @@ border-radius:6px;
 margin-left:10px;
 }
 
+button:hover{
+background:#16a34a;
+}
+
 #resultado{
 margin-top:40px;
 background:#1e293b;
 padding:25px;
 border-radius:10px;
-width:420px;
-margin:auto;
+width:450px;
+margin-left:auto;
+margin-right:auto;
 }
 
 </style>
@@ -50,7 +59,8 @@ margin:auto;
 
 <h1>Consulta de Cliente</h1>
 
-<input id="codigoCliente" placeholder="Ingrese código de cliente">
+<input id="busqueda" placeholder="Ingrese código o nombre">
+
 <button onclick="buscarCliente()">Buscar</button>
 
 <div id="resultado"></div>
@@ -59,25 +69,28 @@ margin:auto;
 
 async function buscarCliente(){
 
-const codigo = document.getElementById("codigoCliente").value.trim()
+const texto = document.getElementById("busqueda").value.trim().toLowerCase()
 
-const response = await fetch("clientes.json")
+const response = await fetch("clientes_actualizado.json")
 
 const clientes = await response.json()
 
-const resultado = clientes.find(c => String(c.Codigo).trim() === codigo)
+const cliente = clientes.find(c => 
+String(c.Codigo) === texto ||
+c.Nombre.toLowerCase().includes(texto)
+)
 
-if(resultado){
+if(cliente){
 
 document.getElementById("resultado").innerHTML = `
-<h2>${resultado.Nombre}</h2>
+<h2>${cliente.Nombre}</h2>
 
-<p><b>Ruta:</b> ${resultado["Ruta Rep."]}</p>
-<p><b>Código:</b> ${resultado.Codigo}</p>
-<p><b>Negocio:</b> ${resultado.Negocio}</p>
-<p><b>Canal:</b> ${resultado.Canal}</p>
-<p><b>Nombre Atención:</b> ${resultado["Nombre atencion"]}</p>
-<p><b>Frecuencia Visita:</b> ${resultado["Frecuencia Visita"]}</p>
+<p><b>Código:</b> ${cliente.Codigo}</p>
+<p><b>Ruta:</b> ${cliente["Ruta Rep."]}</p>
+<p><b>Negocio:</b> ${cliente.Negocio}</p>
+<p><b>Canal:</b> ${cliente.Canal}</p>
+<p><b>Nombre Atención:</b> ${cliente["Nombre atencion"]}</p>
+<p><b>Frecuencia Visita:</b> ${cliente["Frecuencia Visita"]}</p>
 `
 
 }else{
@@ -91,5 +104,4 @@ document.getElementById("resultado").innerHTML = "Cliente no encontrado"
 </script>
 
 </body>
-
 </html>
