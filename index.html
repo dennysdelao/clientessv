@@ -2,8 +2,9 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
-<title>Consulta de Cliente</title>
+<title>Consulta de Clientes</title>
 
 <style>
 
@@ -12,11 +13,11 @@ font-family: Arial;
 background:#0f172a;
 color:white;
 text-align:center;
-padding:40px;
+padding:30px;
 }
 
 h1{
-margin-bottom:30px;
+margin-bottom:25px;
 }
 
 input{
@@ -24,31 +25,31 @@ padding:12px;
 font-size:18px;
 border-radius:6px;
 border:none;
-width:260px;
+width:300px;
 }
 
-button{
-padding:12px 20px;
-font-size:18px;
-background:#22c55e;
-border:none;
-cursor:pointer;
-border-radius:6px;
-margin-left:10px;
-}
-
-button:hover{
-background:#16a34a;
-}
-
-#resultado{
-margin-top:40px;
-background:#1e293b;
-padding:25px;
-border-radius:10px;
-width:450px;
+#tablaResultados{
+margin-top:30px;
+width:90%;
 margin-left:auto;
 margin-right:auto;
+border-collapse:collapse;
+}
+
+#tablaResultados th{
+
+background:#1e293b;
+padding:12px;
+}
+
+#tablaResultados td{
+
+background:#334155;
+padding:10px;
+}
+
+tr:hover{
+background:#475569;
 }
 
 </style>
@@ -57,51 +58,97 @@ margin-right:auto;
 
 <body>
 
-<h1>Consulta de Cliente</h1>
+<h1>Consulta de Clientes</h1>
 
-<input id="busqueda" placeholder="Ingrese código o nombre">
+<input 
+id="busqueda"
+placeholder="Buscar por código o nombre"
+onkeyup="buscarCliente()"
+>
 
-<button onclick="buscarCliente()">Buscar</button>
+<table id="tablaResultados">
 
-<div id="resultado"></div>
+<thead>
+
+<tr>
+
+<th>Código</th>
+<th>Nombre</th>
+<th>Ruta Venta</th>
+<th>Ruta Rep</th>
+<th>Negocio</th>
+<th>Canal</th>
+<th>Nombre Atención</th>
+<th>Frecuencia</th>
+
+</tr>
+
+</thead>
+
+<tbody id="resultados"></tbody>
+
+</table>
 
 <script>
 
-async function buscarCliente(){
+let clientes = []
 
-const texto = document.getElementById("busqueda").value.trim().toLowerCase()
+async function cargarClientes(){
 
-const response = await fetch("clientes_actualizado.json")
+const response = await fetch("clientes.json")
 
-const clientes = await response.json()
+clientes = await response.json()
 
-const cliente = clientes.find(c => 
-String(c.Codigo) === texto ||
-c.Nombre.toLowerCase().includes(texto)
+}
+
+function buscarCliente(){
+
+const texto = document.getElementById("busqueda").value.toLowerCase()
+
+const resultados = clientes.filter(c =>
+
+String(c.Codigo).includes(texto) ||
+(c.Nombre && c.Nombre.toLowerCase().includes(texto))
+
 )
 
-if(cliente){
+mostrarResultados(resultados)
 
-document.getElementById("resultado").innerHTML = `
-<h2>${cliente.Nombre}</h2>
+}
 
-<p><b>Código:</b> ${cliente.Codigo}</p>
-<p><b>Ruta:</b> ${cliente["Ruta Rep."]}</p>
-<p><b>Negocio:</b> ${cliente.Negocio}</p>
-<p><b>Canal:</b> ${cliente.Canal}</p>
-<p><b>Nombre Atención:</b> ${cliente["Nombre atencion"]}</p>
-<p><b>Frecuencia Visita:</b> ${cliente["Frecuencia Visita"]}</p>
+function mostrarResultados(lista){
+
+let html = ""
+
+lista.slice(0,50).forEach(c =>{
+
+html += `
+
+<tr>
+
+<td>${c.Codigo}</td>
+<td>${c.Nombre}</td>
+<td>${c["Ruta Vta"]}</td>
+<td>${c["Ruta Rep."]}</td>
+<td>${c.Negocio}</td>
+<td>${c.Canal}</td>
+<td>${c["Nombre atencion"] ?? ""}</td>
+<td>${c["Frecuencia Visita"]}</td>
+
+</tr>
+
 `
 
-}else{
+})
 
-document.getElementById("resultado").innerHTML = "Cliente no encontrado"
-
-}
+document.getElementById("resultados").innerHTML = html
 
 }
+
+cargarClientes()
 
 </script>
 
 </body>
+
 </html>
