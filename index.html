@@ -2,7 +2,6 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
 <title>Consulta de Clientes</title>
 
@@ -69,7 +68,6 @@ onkeyup="buscarCliente()"
 <thead>
 
 <tr>
-
 <th>Código</th>
 <th>Nombre</th>
 <th>Ruta Venta</th>
@@ -78,7 +76,6 @@ onkeyup="buscarCliente()"
 <th>Canal</th>
 <th>Nombre Atención</th>
 <th>Frecuencia</th>
-
 </tr>
 
 </thead>
@@ -94,7 +91,6 @@ let clientes = []
 async function cargarClientes(){
 
 const response = await fetch("clientes.json")
-
 clientes = await response.json()
 
 }
@@ -104,7 +100,7 @@ function buscarCliente(){
 const texto = document.getElementById("busqueda").value.toLowerCase()
 
 if(texto === ""){
-document.getElementById("resultados").innerHTML = ""
+document.getElementById("resultados").innerHTML=""
 return
 }
 
@@ -121,25 +117,27 @@ mostrarResultados(resultados)
 
 function mostrarResultados(lista){
 
-let html = ""
+let html=""
 
-lista.slice(0,50).forEach(c =>{
+lista.slice(0,50).forEach(c=>{
 
 const rutaVenta =
 c["Ruta Vta"] ||
-c["Ruta Vta."] ||
 c["Ruta Venta"] ||
 c["Ruta_Vta"] ||
-"";
+c["RutaVta"] ||
+c["Ruta Rep."] ||
+""
 
 const nombreAtencion =
 c["Nombre atencion"] ||
 c["Nombre Atención"] ||
-c["Nombre_atencion"] ||
-c["Nombre Atencion"] ||
-"";
+c["Atencion"] ||
+c["atencion"] ||
+c["NombreAtencion"] ||
+""
 
-html += `
+html +=`
 
 <tr>
 
@@ -158,7 +156,7 @@ html += `
 
 })
 
-document.getElementById("resultados").innerHTML = html
+document.getElementById("resultados").innerHTML=html
 
 }
 
@@ -167,5 +165,4 @@ cargarClientes()
 </script>
 
 </body>
-
 </html>
