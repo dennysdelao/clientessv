@@ -119,12 +119,15 @@ String(c.Codigo).includes(texto) ||
 mostrarResultados(resultados)
 
 }
-
 function mostrarResultados(lista){
 
 let html = ""
 
 lista.slice(0,50).forEach(c =>{
+
+const rutaVenta = c["Ruta Vta"] ?? c["Ruta Venta"] ?? ""
+const rutaRep = c["Ruta Rep."] ?? ""
+const nombreAtencion = c["Nombre atencion"] ?? c["Nombre Atención"] ?? ""
 
 html += `
 
@@ -132,11 +135,11 @@ html += `
 
 <td>${c.Codigo}</td>
 <td>${c.Nombre}</td>
-<td>${c["Ruta Vta"] ?? ""}</td>
-<td>${c["Ruta Rep."] ?? ""}</td>
+<td>${rutaVenta}</td>
+<td>${rutaRep}</td>
 <td>${c.Negocio ?? ""}</td>
 <td>${c.Canal ?? ""}</td>
-<td>${c["Nombre atencion"] ?? ""}</td>
+<td>${nombreAtencion}</td>
 <td>${c["Frecuencia Visita"] ?? ""}</td>
 
 </tr>
@@ -146,6 +149,7 @@ html += `
 })
 
 document.getElementById("resultados").innerHTML = html
+
 
 }
 
