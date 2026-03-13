@@ -37,13 +37,11 @@ border-collapse:collapse;
 }
 
 #tablaResultados th{
-
 background:#1e293b;
 padding:12px;
 }
 
 #tablaResultados td{
-
 background:#334155;
 padding:10px;
 }
@@ -96,6 +94,7 @@ let clientes = []
 async function cargarClientes(){
 
 const response = await fetch("clientes.json")
+
 clientes = await response.json()
 
 }
@@ -119,15 +118,26 @@ String(c.Codigo).includes(texto) ||
 mostrarResultados(resultados)
 
 }
+
 function mostrarResultados(lista){
 
 let html = ""
 
 lista.slice(0,50).forEach(c =>{
 
-const rutaVenta = c["Ruta Vta"] ?? c["Ruta Venta"] ?? ""
-const rutaRep = c["Ruta Rep."] ?? ""
-const nombreAtencion = c["Nombre atencion"] ?? c["Nombre Atención"] ?? ""
+const rutaVenta =
+c["Ruta Vta"] ||
+c["Ruta Vta."] ||
+c["Ruta Venta"] ||
+c["Ruta_Vta"] ||
+"";
+
+const nombreAtencion =
+c["Nombre atencion"] ||
+c["Nombre Atención"] ||
+c["Nombre_atencion"] ||
+c["Nombre Atencion"] ||
+"";
 
 html += `
 
@@ -136,7 +146,7 @@ html += `
 <td>${c.Codigo}</td>
 <td>${c.Nombre}</td>
 <td>${rutaVenta}</td>
-<td>${rutaRep}</td>
+<td>${c["Ruta Rep."] ?? ""}</td>
 <td>${c.Negocio ?? ""}</td>
 <td>${c.Canal ?? ""}</td>
 <td>${nombreAtencion}</td>
@@ -149,7 +159,6 @@ html += `
 })
 
 document.getElementById("resultados").innerHTML = html
-
 
 }
 
