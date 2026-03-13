@@ -89,6 +89,7 @@ let clientes=[]
 async function cargarExcel(){
 
 const response = await fetch("listado clientes two.xlsx")
+
 const data = await response.arrayBuffer()
 
 const workbook = XLSX.read(data)
@@ -110,8 +111,8 @@ return
 
 const resultados = clientes.filter(c =>
 
-String(c.Codigo).includes(texto) ||
-(c.Nombre && c.Nombre.toLowerCase().includes(texto))
+String(c["Codigo"]).includes(texto) ||
+(c["Nombre"] && c["Nombre"].toLowerCase().includes(texto))
 
 )
 
@@ -129,12 +130,12 @@ html+=`
 
 <tr>
 
-<td>${c.Codigo}</td>
-<td>${c.Nombre}</td>
+<td>${c["Codigo"]}</td>
+<td>${c["Nombre"]}</td>
 <td>${c["Ruta Vta"]}</td>
 <td>${c["Ruta Rep."]}</td>
-<td>${c.Negocio}</td>
-<td>${c.Canal}</td>
+<td>${c["Negocio"]}</td>
+<td>${c["Canal"]}</td>
 <td>${c["Nombre.1"]}</td>
 <td>${c["Frecuencia Visita"]}</td>
 
