@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Consulta de Clientes</title>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 <style>
 
@@ -84,19 +84,25 @@ onkeyup="buscarCliente()"
 
 <script>
 
-let clientes=[]
+let clientes = []
 
 async function cargarExcel(){
 
-const response = await fetch("listado clientes two.xlsx")
+const url = "listado clientes two.xlsx"
+
+const response = await fetch(url)
 
 const data = await response.arrayBuffer()
 
-const workbook = XLSX.read(data)
+const workbook = XLSX.read(data,{type:"array"})
 
-const sheet = workbook.Sheets[workbook.SheetNames[0]]
+const sheetName = workbook.SheetNames[0]
 
-clientes = XLSX.utils.sheet_to_json(sheet)
+const worksheet = workbook.Sheets[sheetName]
+
+clientes = XLSX.utils.sheet_to_json(worksheet)
+
+console.log("Clientes cargados:",clientes.length)
 
 }
 
@@ -130,14 +136,14 @@ html+=`
 
 <tr>
 
-<td>${c["Codigo"]}</td>
-<td>${c["Nombre"]}</td>
-<td>${c["Ruta Vta"]}</td>
-<td>${c["Ruta Rep."]}</td>
-<td>${c["Negocio"]}</td>
-<td>${c["Canal"]}</td>
-<td>${c["Nombre.1"]}</td>
-<td>${c["Frecuencia Visita"]}</td>
+<td>${c["Codigo"] ?? ""}</td>
+<td>${c["Nombre"] ?? ""}</td>
+<td>${c["Ruta Vta"] ?? ""}</td>
+<td>${c["Ruta Rep."] ?? ""}</td>
+<td>${c["Negocio"] ?? ""}</td>
+<td>${c["Canal"] ?? ""}</td>
+<td>${c["Nombre.1"] ?? ""}</td>
+<td>${c["Frecuencia Visita"] ?? ""}</td>
 
 </tr>
 
