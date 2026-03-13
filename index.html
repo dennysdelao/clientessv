@@ -2,7 +2,6 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
 <title>Consulta de Clientes</title>
 
@@ -62,7 +61,6 @@ onkeyup="buscarCliente()"
 <table>
 
 <thead>
-
 <tr>
 <th>Código</th>
 <th>Nombre</th>
@@ -73,7 +71,6 @@ onkeyup="buscarCliente()"
 <th>Nombre Atención</th>
 <th>Frecuencia</th>
 </tr>
-
 </thead>
 
 <tbody id="resultados"></tbody>
@@ -84,10 +81,9 @@ onkeyup="buscarCliente()"
 
 let clientes=[]
 
-async function cargarDatos(){
+async function cargarClientes(){
 
 const response = await fetch("clientes.json")
-
 clientes = await response.json()
 
 }
@@ -121,7 +117,6 @@ lista.slice(0,100).forEach(c=>{
 html+=`
 
 <tr>
-
 <td>${c.Codigo}</td>
 <td>${c.Nombre}</td>
 <td>${c["Ruta Vta"]}</td>
@@ -130,7 +125,6 @@ html+=`
 <td>${c.Canal}</td>
 <td>${c["Nombre atencion"]}</td>
 <td>${c["Frecuencia Visita"]}</td>
-
 </tr>
 
 `
@@ -141,10 +135,9 @@ document.getElementById("resultados").innerHTML=html
 
 }
 
-cargarDatos()
+cargarClientes()
 
 </script>
 
 </body>
-
 </html>
