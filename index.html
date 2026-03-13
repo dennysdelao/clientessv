@@ -30,7 +30,7 @@ width:300px;
 
 #tablaResultados{
 margin-top:30px;
-width:90%;
+width:95%;
 margin-left:auto;
 margin-right:auto;
 border-collapse:collapse;
@@ -96,7 +96,6 @@ let clientes = []
 async function cargarClientes(){
 
 const response = await fetch("clientes.json")
-
 clientes = await response.json()
 
 }
@@ -104,6 +103,11 @@ clientes = await response.json()
 function buscarCliente(){
 
 const texto = document.getElementById("busqueda").value.toLowerCase()
+
+if(texto === ""){
+document.getElementById("resultados").innerHTML = ""
+return
+}
 
 const resultados = clientes.filter(c =>
 
@@ -128,12 +132,12 @@ html += `
 
 <td>${c.Codigo}</td>
 <td>${c.Nombre}</td>
-<td>${c["Ruta Vta"]}</td>
-<td>${c["Ruta Rep."]}</td>
-<td>${c.Negocio}</td>
-<td>${c.Canal}</td>
+<td>${c["Ruta Vta"] ?? ""}</td>
+<td>${c["Ruta Rep."] ?? ""}</td>
+<td>${c.Negocio ?? ""}</td>
+<td>${c.Canal ?? ""}</td>
 <td>${c["Nombre atencion"] ?? ""}</td>
-<td>${c["Frecuencia Visita"]}</td>
+<td>${c["Frecuencia Visita"] ?? ""}</td>
 
 </tr>
 
